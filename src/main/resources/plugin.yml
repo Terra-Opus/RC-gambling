@@ -6,8 +6,6 @@ author: royalkingkb
 depend: [Vault]
 softdepend: [mcatlas-economy]
 commands:
-  roll:
-    description: Roll your gold ingots away
   coinflip:
     description: Coinflip someone
     aliases: [coin]

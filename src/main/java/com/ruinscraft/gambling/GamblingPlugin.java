@@ -15,7 +15,7 @@ public class GamblingPlugin extends JavaPlugin {
 
         coinflipManager = new CoinflipManager(this);
 
-        getCommand("roll").setExecutor(new RollCommand());
+//        getCommand("roll").setExecutor(new RollCommand());
         getCommand("coinflip").setExecutor(new CoinflipCommand(coinflipManager));
         getCommand("coinflipaccept").setExecutor(new CoinflipAcceptCommand(coinflipManager));
     }
