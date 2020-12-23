@@ -61,7 +61,7 @@ public class CoinflipAcceptCommand implements CommandExecutor {
         VaultUtil.withdraw(loser, amount);
         VaultUtil.deposit(winner, amount);
 
-        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + winner.getName() + " won a coinflip against " + loser.getName() + " worth " + ChatColor.GREEN + coinflip.getCoinWorth());
+        Bukkit.broadcastMessage(ChatColor.AQUA + winner.getName() + " won a coinflip against " + loser.getName() + " worth " + ChatColor.GREEN + coinflip.getCoinWorth());
 
         return true;
     }

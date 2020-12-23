@@ -7,12 +7,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 public class CoinflipCommand implements CommandExecutor {
 
     private CoinflipManager coinflipManager;
+    private Map<Player, Long> recentFlips;
 
     public CoinflipCommand(CoinflipManager coinflipManager) {
         this.coinflipManager = coinflipManager;
+        this.recentFlips = new HashMap<>();
     }
 
     @Override
@@ -31,6 +37,16 @@ public class CoinflipCommand implements CommandExecutor {
         if (args.length < 2) {
             player.sendMessage(ChatColor.RED + "/" + label + " <username> <amount>");
             return false;
+        }
+
+        if (recentFlips.containsKey(player)) {
+            long lastBetTime = recentFlips.get(player);
+            long currentTime = System.currentTimeMillis();
+
+            if (lastBetTime + TimeUnit.SECONDS.toMillis(20) > currentTime) {
+                player.sendMessage(ChatColor.RED + "Please wait before making another bet.");
+                return false;
+            }
         }
 
         Player target = null;
@@ -60,6 +76,11 @@ public class CoinflipCommand implements CommandExecutor {
             return false;
         }
 
+        if (amount < 0) {
+            player.sendMessage(ChatColor.RED + "You cannot bet a negative amount.");
+            return false;
+        }
+
         if (!VaultUtil.has(player, amount)) {
             player.sendMessage(ChatColor.RED + "You do not have enough to make this bet.");
             return false;
@@ -69,6 +90,8 @@ public class CoinflipCommand implements CommandExecutor {
 
         target.sendMessage(ChatColor.GOLD + player.getName() + " wants to flip a coin for " + ChatColor.GREEN + amount + ChatColor.GOLD + ". Type '/coinflipaccept " + amount + "' to accept.");
         player.sendMessage(ChatColor.GOLD + "Sending coinflip request to " + target.getName() + "...");
+
+        recentFlips.put(player, System.currentTimeMillis());
 
         return true;
     }
