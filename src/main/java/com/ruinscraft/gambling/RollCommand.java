@@ -50,15 +50,15 @@ public class RollCommand implements CommandExecutor {
             }
 
             switch (matches) {
-                case 1:
-                    return "Doubles!";
                 case 2:
-                    return "Oh baby a triple!";
+                    return "Doubles!";
                 case 3:
-                    return "CAN YOU BELIEVE IT? QUADS!";
+                    return "Oh baby a triple!";
                 case 4:
-                    return "What a quintuple!";
+                    return "CAN YOU BELIEVE IT? QUADS!";
                 case 5:
+                    return "What a quintuple!";
+                case 6:
                     return "Sextuple.";
                 default:
                     return "";
