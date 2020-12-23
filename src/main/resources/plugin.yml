@@ -1,0 +1,16 @@
+main: ${mainClass}
+name: ${name}
+version: ${version}
+api-version: 1.13
+author: royalkingkb
+depend: [Vault]
+softdepend: [mcatlas-economy]
+commands:
+  roll:
+    description: Roll your gold ingots away
+  coinflip:
+    description: Coinflip someone
+    aliases: [coin]
+  coinflipaccept:
+    description: Accept a coinflip
+    aliases: [coinaccept]
