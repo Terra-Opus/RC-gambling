@@ -88,7 +88,7 @@ public class CoinflipCommand implements CommandExecutor {
 
         coinflipManager.createCoinflip(player, target, amount);
 
-        target.sendMessage(ChatColor.GOLD + player.getName() + " wants to flip a coin for " + ChatColor.GREEN + amount + ChatColor.GOLD + ". Type '/coinflipaccept " + amount + "' to accept.");
+        target.sendMessage(ChatColor.GOLD + player.getName() + " wants to flip a coin for " + ChatColor.GREEN + amount + ChatColor.GOLD + ". Type '/coinflipaccept " + amount + "' to accept. This will cost you " + amount + " gold ingots.");
         player.sendMessage(ChatColor.GOLD + "Sending coinflip request to " + target.getName() + "...");
 
         recentFlips.put(player, System.currentTimeMillis());

@@ -58,10 +58,12 @@ public class CoinflipAcceptCommand implements CommandExecutor {
             loser = coinflip.getInitiator();
         }
 
-        VaultUtil.withdraw(loser, amount);
-        VaultUtil.deposit(winner, amount);
-
-        Bukkit.broadcastMessage(ChatColor.AQUA + winner.getName() + " won a coinflip against " + loser.getName() + " worth " + ChatColor.GREEN + coinflip.getCoinWorth());
+        if (VaultUtil.withdraw(loser, amount)) {
+            VaultUtil.deposit(winner, amount);
+            Bukkit.broadcastMessage(ChatColor.AQUA + winner.getName() + " won a coinflip against " + loser.getName() + " worth " + ChatColor.GREEN + coinflip.getCoinWorth());
+        } else {
+            winner.sendMessage(ChatColor.GOLD + loser.getName() + " did not have " + amount);
+        }
 
         return true;
     }
