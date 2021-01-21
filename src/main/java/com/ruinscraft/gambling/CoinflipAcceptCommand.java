@@ -58,11 +58,23 @@ public class CoinflipAcceptCommand implements CommandExecutor {
             loser = coinflip.getInitiator();
         }
 
+        if (!VaultUtil.has(loser, amount)) {
+            winner.sendMessage(ChatColor.GOLD + loser.getName() + "'s balance changed and they did not have " + amount);
+            winner.sendMessage(ChatColor.GOLD + "The coinflip has been canceled.");
+            loser.sendMessage(ChatColor.GOLD + "Your balance was too low. The coinflip was canceled.");
+            return false;
+        }
+
+        if (!VaultUtil.has(winner, amount)) {
+            loser.sendMessage(ChatColor.GOLD + winner.getName() + "'s balance changed and they did not have " + amount);
+            loser.sendMessage(ChatColor.GOLD + "The coinflip has been canceled.");
+            winner.sendMessage(ChatColor.GOLD + "Your balance was too low. The coinflip was canceled.");
+            return false;
+        }
+
         if (VaultUtil.withdraw(loser, amount)) {
             VaultUtil.deposit(winner, amount);
             Bukkit.broadcastMessage(ChatColor.AQUA + winner.getName() + " won a coinflip against " + loser.getName() + " worth " + ChatColor.GREEN + coinflip.getCoinWorth());
-        } else {
-            winner.sendMessage(ChatColor.GOLD + loser.getName() + " did not have " + amount);
         }
 
         return true;
