@@ -1,0 +1,3 @@
+enable-coinflips: true
+enable-rolling: false
+enable-slotmachines: false

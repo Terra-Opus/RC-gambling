@@ -1,5 +1,6 @@
-package com.ruinscraft.gambling;
+package com.ruinscraft.gambling.coinflip;
 
+import com.ruinscraft.gambling.VaultUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

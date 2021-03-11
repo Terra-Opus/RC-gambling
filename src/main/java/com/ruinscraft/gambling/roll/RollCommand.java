@@ -1,15 +1,14 @@
-package com.ruinscraft.gambling;
+package com.ruinscraft.gambling.roll;
 
+import com.ruinscraft.gambling.GamblingPlugin;
+import com.ruinscraft.gambling.RandomNumbers;
+import com.ruinscraft.gambling.VaultUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class RollCommand implements CommandExecutor {
 
@@ -67,10 +66,10 @@ public class RollCommand implements CommandExecutor {
 
     }
 
-    private Map<Player, Long> recentBets;
+    private GamblingPlugin gamblingPlugin;
 
-    public RollCommand() {
-        recentBets = new HashMap<>();
+    public RollCommand(GamblingPlugin gamblingPlugin) {
+        this.gamblingPlugin = gamblingPlugin;
     }
 
     @Override
@@ -81,49 +80,39 @@ public class RollCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if (recentBets.containsKey(player)) {
-            long lastBetTime = recentBets.get(player);
-            long currentTime = System.currentTimeMillis();
+        if (!gamblingPlugin.getCooldownManager().isOnCooldown(player)) {
+            final int bet;
 
-            if (lastBetTime + TimeUnit.SECONDS.toMillis(30) > currentTime) {
-                player.sendMessage(ChatColor.RED + "Please wait before making another bet.");
+            if (args.length < 1) {
+                bet = 0;
+            } else {
+                try {
+                    bet = Integer.parseInt(args[0]);
+                } catch (NumberFormatException e) {
+                    player.sendMessage(ChatColor.RED + "Invalid bet amount.");
+                    return false;
+                }
+            }
+
+            if (!VaultUtil.has(player, bet)) {
+                player.sendMessage(ChatColor.RED + "You do not have enough to make this bet.");
                 return false;
             }
-        }
 
-        final int bet;
+            VaultUtil.withdraw(player, bet);
 
-        if (args.length < 1) {
-            bet = 0;
-        } else {
-            try {
-                bet = Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                player.sendMessage(ChatColor.RED + "Invalid bet amount.");
-                return false;
+            Roll roll = new Roll();
+
+            String message = ChatColor.LIGHT_PURPLE + player.getName() + " rolled " + ChatColor.GREEN + roll.getNumbers();
+
+            if (roll.isWinner()) {
+                int winAmount = bet * 10;
+                message += ChatColor.LIGHT_PURPLE + " and won " + ChatColor.GREEN + winAmount + ChatColor.LIGHT_PURPLE + "! " + roll.getMessage();
+                VaultUtil.deposit(player, winAmount);
             }
+
+            Bukkit.broadcastMessage(message);
         }
-
-        if (!VaultUtil.has(player, bet)) {
-            player.sendMessage(ChatColor.RED + "You do not have enough to make this bet.");
-            return false;
-        }
-
-        VaultUtil.withdraw(player, bet);
-
-        Roll roll = new Roll();
-
-        String message = ChatColor.LIGHT_PURPLE + player.getName() + " rolled " + ChatColor.GREEN + roll.getNumbers();
-
-        if (roll.isWinner()) {
-            int winAmount = bet * 10;
-            message += ChatColor.LIGHT_PURPLE + " and won " + ChatColor.GREEN + winAmount + ChatColor.LIGHT_PURPLE + "! " + roll.getMessage();
-            VaultUtil.deposit(player, winAmount);
-        }
-
-        Bukkit.broadcastMessage(message);
-
-        recentBets.put(player, System.currentTimeMillis());
 
         return true;
     }

@@ -4,7 +4,6 @@ version: ${version}
 api-version: 1.13
 author: royalkingkb
 depend: [Vault]
-softdepend: [mcatlas-economy]
 commands:
   coinflip:
     description: Coinflip someone
@@ -12,3 +11,5 @@ commands:
   coinflipaccept:
     description: Accept a coinflip
     aliases: [coinaccept]
+  balance:
+    description: Show your balance to the server

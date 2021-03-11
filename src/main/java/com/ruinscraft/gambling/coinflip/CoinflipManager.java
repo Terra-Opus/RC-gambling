@@ -1,5 +1,7 @@
-package com.ruinscraft.gambling;
+package com.ruinscraft.gambling.coinflip;
 
+import com.ruinscraft.gambling.GamblingPlugin;
+import com.ruinscraft.gambling.RandomNumbers;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
