@@ -11,5 +11,5 @@ commands:
   coinflipaccept:
     description: Accept a coinflip
     aliases: [coinaccept]
-  balance:
-    description: Show your balance to the server
+  roll:
+    description: 1 in 10 chance of 10x your money

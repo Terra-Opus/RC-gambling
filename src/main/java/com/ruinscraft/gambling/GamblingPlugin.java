@@ -47,8 +47,6 @@ public class GamblingPlugin extends JavaPlugin {
         if (enableRolling) {
             getCommand("roll").setExecutor(new RollCommand(this));
         }
-
-        getCommand("balance").setExecutor(new BalanceCommand(this));
     }
 
     @Override

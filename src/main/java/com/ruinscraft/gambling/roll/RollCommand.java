@@ -103,11 +103,11 @@ public class RollCommand implements CommandExecutor {
 
             Roll roll = new Roll();
 
-            String message = ChatColor.LIGHT_PURPLE + player.getName() + " rolled " + ChatColor.GREEN + roll.getNumbers();
+            String message = ChatColor.LIGHT_PURPLE + player.getName() + " bet " + ChatColor.GREEN + bet + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + " and rolled " + ChatColor.GREEN + roll.getNumbers();
 
             if (roll.isWinner()) {
                 int winAmount = bet * 10;
-                message += ChatColor.LIGHT_PURPLE + " and won " + ChatColor.GREEN + winAmount + ChatColor.LIGHT_PURPLE + "! " + roll.getMessage();
+                message += ChatColor.LIGHT_PURPLE + " and won " + ChatColor.GREEN + winAmount + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + "! " + roll.getMessage();
                 VaultUtil.deposit(player, winAmount);
             }
 

@@ -46,4 +46,8 @@ public final class VaultUtil {
         economy.depositPlayer(player, amount);
     }
 
+    public static String getCurrencyNamePlural() {
+        return economy.currencyNamePlural();
+    }
+
 }
