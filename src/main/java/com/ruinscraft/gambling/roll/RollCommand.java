@@ -3,8 +3,11 @@ package com.ruinscraft.gambling.roll;
 import com.ruinscraft.gambling.GamblingPlugin;
 import com.ruinscraft.gambling.RandomNumbers;
 import com.ruinscraft.gambling.VaultUtil;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -99,24 +102,48 @@ public class RollCommand implements CommandExecutor {
                 return false;
             }
 
-            VaultUtil.withdraw(player, bet);
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("Rolling the dice..."));
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 1f);
 
-            Roll roll = new Roll();
+            gamblingPlugin.getServer().getScheduler().runTaskLater(gamblingPlugin, () -> {
+                if (player.isOnline()) {
+                    VaultUtil.withdraw(player, bet);
 
-            // make the rolls more jewish
-            if (roll.isWinner() && RandomNumbers.chance(8)) {
-                roll = new Roll();
-            }
+                    Roll roll = new Roll();
 
-            String message = ChatColor.LIGHT_PURPLE + player.getName() + " bet " + ChatColor.GREEN + bet + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + " and rolled " + ChatColor.GREEN + roll.getNumbers();
+                    // make the rolls more jewish
+                    if (roll.isWinner() && RandomNumbers.chance(8)) {
+                        roll = new Roll();
+                    }
 
-            if (roll.isWinner()) {
-                int winAmount = bet * 10;
-                message += ChatColor.LIGHT_PURPLE + " and won " + ChatColor.GREEN + winAmount + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + "! " + roll.getMessage();
-                VaultUtil.deposit(player, winAmount);
-            }
+                    String message = ChatColor.LIGHT_PURPLE + player.getName() + " bet " + ChatColor.GREEN + bet + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + " and rolled " + ChatColor.GREEN + roll.getNumbers();
 
-            Bukkit.broadcastMessage(message);
+                    if (roll.isWinner()) {
+                        int winAmount = bet * 10;
+                        message += ChatColor.LIGHT_PURPLE + " and won " + ChatColor.GREEN + winAmount + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + "! " + roll.getMessage();
+                        VaultUtil.deposit(player, winAmount);
+                    }
+
+                    Bukkit.broadcastMessage(message);
+
+                    // play a nice sound if winner
+                    if (roll.isWinner()) {
+                        gamblingPlugin.getServer().getScheduler().runTaskLater(gamblingPlugin, () -> {
+                            if (player.isOnline()) {
+                                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 1.3f);
+                            }
+
+                            gamblingPlugin.getServer().getScheduler().runTaskLater(gamblingPlugin, () -> {
+                                if (player.isOnline()) {
+                                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 1.5f);
+                                }
+                            }, 10L);
+                        }, 5L);
+                    }
+                }
+            }, 40L);
+
+
         }
 
         return true;
