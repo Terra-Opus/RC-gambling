@@ -103,6 +103,11 @@ public class RollCommand implements CommandExecutor {
 
             Roll roll = new Roll();
 
+            // make the rolls more jewish
+            if (roll.isWinner() && RandomNumbers.chance(8)) {
+                roll = new Roll();
+            }
+
             String message = ChatColor.LIGHT_PURPLE + player.getName() + " bet " + ChatColor.GREEN + bet + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + " and rolled " + ChatColor.GREEN + roll.getNumbers();
 
             if (roll.isWinner()) {

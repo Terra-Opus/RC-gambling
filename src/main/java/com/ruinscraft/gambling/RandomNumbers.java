@@ -14,4 +14,8 @@ public final class RandomNumbers {
         return SRAND.nextBoolean();
     }
 
+    public static boolean chance(int outOf100) {
+        return SRAND.nextInt(100) < outOf100;
+    }
+
 }
