@@ -118,18 +118,12 @@ public class RollCommand implements CommandExecutor {
 
                     String message = ChatColor.LIGHT_PURPLE + player.getName() + " bet " + ChatColor.GREEN + bet + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + " and rolled " + ChatColor.GREEN + roll.getNumbers();
 
-
                     if (roll.isWinner()) {
                         int winAmount = bet * 10;
                         message += ChatColor.LIGHT_PURPLE + " and won " + ChatColor.GREEN + winAmount + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + "! " + roll.getMessage();
                         VaultUtil.deposit(player, winAmount);
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("You won " + winAmount + "!"));
-                    }
-
-                    Bukkit.broadcastMessage(message);
-
-                    // play a nice sound if winner
-                    if (roll.isWinner()) {
+                        // play a nice sound if winner
                         gamblingPlugin.getServer().getScheduler().runTaskLater(gamblingPlugin, () -> {
                             if (player.isOnline()) {
                                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 1.3f);
@@ -142,10 +136,10 @@ public class RollCommand implements CommandExecutor {
                             }, 10L);
                         }, 5L);
                     }
+
+                    Bukkit.broadcastMessage(message);
                 }
             }, 40L);
-
-
         }
 
         return true;
