@@ -52,15 +52,15 @@ public class RollCommand implements CommandExecutor {
             }
 
             switch (matches) {
-                case 2:
+                case 1:
                     return "Doubles!";
-                case 3:
+                case 2:
                     return "Oh baby a triple!";
-                case 4:
+                case 3:
                     return "CAN YOU BELIEVE IT? QUADS!";
-                case 5:
+                case 4:
                     return "What a quintuple!";
-                case 6:
+                case 5:
                     return "Sextuple.";
                 default:
                     return "";
@@ -118,10 +118,12 @@ public class RollCommand implements CommandExecutor {
 
                     String message = ChatColor.LIGHT_PURPLE + player.getName() + " bet " + ChatColor.GREEN + bet + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + " and rolled " + ChatColor.GREEN + roll.getNumbers();
 
+
                     if (roll.isWinner()) {
                         int winAmount = bet * 10;
                         message += ChatColor.LIGHT_PURPLE + " and won " + ChatColor.GREEN + winAmount + ChatColor.LIGHT_PURPLE + " " + VaultUtil.getCurrencyNamePlural() + "! " + roll.getMessage();
                         VaultUtil.deposit(player, winAmount);
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("You won " + winAmount + "!"));
                     }
 
                     Bukkit.broadcastMessage(message);
