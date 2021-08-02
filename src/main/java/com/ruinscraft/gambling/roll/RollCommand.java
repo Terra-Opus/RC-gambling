@@ -48,6 +48,8 @@ public class RollCommand implements CommandExecutor {
             for (int i = 5; i > 0; i--) {
                 if (numbers[i] == numbers[i - 1]) {
                     matches++;
+                } else {
+                    break;
                 }
             }
 
