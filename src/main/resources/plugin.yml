@@ -3,7 +3,8 @@ name: ${name}
 version: ${version}
 api-version: 1.13
 author: royalkingkb
-depend: [Vault, stevecinema-economy, mcatlas-economy]
+softdepend: [stevecinema-economy, mcatlas-economy]
+depend: [Vault]
 commands:
   coinflip:
     description: Coinflip someone
