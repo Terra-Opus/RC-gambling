@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CooldownManager implements Listener {
 
-    private static final long COOLDOWN_MILLIS = TimeUnit.SECONDS.toMillis(15);
+    private static final long COOLDOWN_MILLIS = TimeUnit.SECONDS.toMillis(45);
 
     private Map<Player, Long> recentUsages;
 

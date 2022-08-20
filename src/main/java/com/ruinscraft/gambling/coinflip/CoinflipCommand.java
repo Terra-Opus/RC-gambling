@@ -75,7 +75,7 @@ public class CoinflipCommand implements CommandExecutor {
 
             gamblingPlugin.getCoinflipManager().createCoinflip(player, target, amount);
 
-            target.sendMessage(ChatColor.GOLD + player.getName() + " wants to flip a coin for " + ChatColor.GREEN + amount + ChatColor.GOLD + ". Type '/coinflipaccept " + amount + "' to accept. This will cost you " + amount + " gold ingots.");
+            target.sendMessage(ChatColor.GOLD + player.getName() + " wants to flip a coin for " + ChatColor.GREEN + amount + ChatColor.GOLD + ". Type '/coinflipaccept " + amount + "' to accept. This will cost you " + amount + " Terrals");
             player.sendMessage(ChatColor.GOLD + "Sending coinflip request to " + target.getName() + "...");
         }
 
